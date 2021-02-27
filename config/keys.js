@@ -10,6 +10,6 @@ if (process.env.NODE_ENV === "production") {
     JWT_SECRET: "WEFEWF",
     MONGOURI: "mongodb+srv://deepakb:deepak-123@cluster0.oafna.mongodb.net/address-book?retryWrites=true&w=majority",
     // SENDGRID_API: process.env.SENDGRID_API,
-    EMAIL: "http://localhost:5000",
+    EMAIL: "http://localhost:3000",
   };
 }

@@ -13,7 +13,7 @@ const addressSchema = new Schema(
     zip_code: { type: Number, required: true, trim: true },
     street: { type: String, trim: true },
     created_date: { type: Date, default: Date.now() },
-    createdBy: { type: ObjectId, ref: "user" },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   },
   { timestamps: true }
 );

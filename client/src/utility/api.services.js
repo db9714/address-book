@@ -1,5 +1,6 @@
 import axios from "axios";
-const API_URL = "";
+import { API_URL } from "./../config";
+
 let ApiService = {
   get: (url, payload, headers, showLoader, callback) => {
     console.log(url, "url");

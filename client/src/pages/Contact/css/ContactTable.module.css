@@ -12,7 +12,7 @@ th {
   font-size: 14px;
   font-family: "Raleway", sans-serif;
   font-weight: 700;
-  padding: 5px 5px;
+  padding: 10px 10px !important;
 }
 tbody > tr {
   height: 50px;
@@ -28,7 +28,7 @@ td {
   display: table-cell;
   vertical-align: middle;
   text-align: left;
-  padding: 5px 5px;
+  padding: 10px 10px !important;
   font-size: 14px;
   font-family: "Raleway", sans-serif;
   font-weight: 500;

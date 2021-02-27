@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
       city: city,
       mobile_no: mobileNo,
       state: state,
-      createdBy: JSON.parse(localStorage.getItem("user"))[0].id,
+      createdBy: JSON.parse(localStorage.getItem("user"))[0]._id,
     };
     var headers = {};
     apiServices.post("address/create", payload, headers, this.toggleLoader, (responseData, errorData) => {
@@ -65,6 +65,8 @@ class Dashboard extends React.Component {
       } else console.log(errorData);
     });
   };
+  updateInputValue = (stateVal, e) => this.setState({ [stateVal]: e });
+
   render() {
     const { fullName, email, zipCode, street, city, mobileNo, state, didContactCreated, showLoader } = this.state;
 
@@ -81,15 +83,14 @@ class Dashboard extends React.Component {
               </Col>
             </Row>
           )}
-
           <Col md={7} className={styles.column}>
-            <RowComponent title={"Full Name"} value={fullName} />
-            <RowComponent title={"Email"} value={email} />
-            <RowComponent title={"Mobile Number"} value={mobileNo} />
-            <RowComponent title={"Street"} value={street} />
-            <RowComponent title={"City"} value={city} />
-            <RowComponent title={"State"} value={state} />
-            <RowComponent title={"Zip Code"} value={zipCode} />
+            <RowComponent title={"Full Name"} value={fullName} onChange={(e) => this.updateInputValue("fullName", e)} />
+            <RowComponent title={"Email"} value={email} onChange={(e) => this.updateInputValue("email", e)} />
+            <RowComponent title={"Mobile Number"} value={mobileNo} onChange={(e) => this.updateInputValue("mobileNo", e)} />
+            <RowComponent title={"Street"} value={street} onChange={(e) => this.updateInputValue("street", e)} />
+            <RowComponent title={"City"} value={city} onChange={(e) => this.updateInputValue("city", e)} />
+            <RowComponent title={"State"} value={state} onChange={(e) => this.updateInputValue("state", e)} />
+            <RowComponent title={"Zip Code"} value={zipCode} onChange={(e) => this.updateInputValue("zipCode", e)} />
             <Row className={styles.buttonBlock}>
               <PlainButton title="Save" onClick={() => this.addContact()} />
               <PlainButton
@@ -121,7 +122,7 @@ const RowComponent = (props) => (
     </Col>
     <Col md={1}>:</Col>
     <Col md={5}>
-      <TextInput value={props.value} onChange={(e) => this.setState({ [props.value]: e.target.value })} />
+      <TextInput value={props.value} onChange={(e) => props.onChange(e.target.value)} />
     </Col>
   </Row>
 );

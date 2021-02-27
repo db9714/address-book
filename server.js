@@ -19,7 +19,7 @@ console.log(MONGOURI, "db", PORT);
 //config PORT
 
 //config MongoDB
-mongoose.connect(process.env.MONGOURI, {
+mongoose.connect(process.env.MONGOURI || MONGOURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

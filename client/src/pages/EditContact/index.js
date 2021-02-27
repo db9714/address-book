@@ -73,6 +73,8 @@ class EditContact extends React.Component {
       } else console.log(errorData);
     });
   };
+  updateInputValue = (stateVal, e) => this.setState({ [stateVal]: e });
+
   render() {
     const { fullName, email, zipCode, street, city, mobileNo, state, didContactUpdated, showLoader } = this.state;
 
@@ -91,13 +93,13 @@ class EditContact extends React.Component {
           )}
 
           <Col md={7} className={styles.column}>
-            <RowComponent title={"Full Name"} value={fullName} />
-            <RowComponent title={"Email"} value={email} />
-            <RowComponent title={"Mobile Number"} value={mobileNo} />
-            <RowComponent title={"Street"} value={street} />
-            <RowComponent title={"City"} value={city} />
-            <RowComponent title={"State"} value={state} />
-            <RowComponent title={"Zip Code"} value={zipCode} />
+            <RowComponent title={"Full Name"} value={fullName} onChange={(e) => this.updateInputValue("fullName", e)} />
+            <RowComponent title={"Email"} value={email} onChange={(e) => this.updateInputValue("email", e)} />
+            <RowComponent title={"Mobile Number"} value={mobileNo} onChange={(e) => this.updateInputValue("mobileNo", e)} />
+            <RowComponent title={"Street"} value={street} onChange={(e) => this.updateInputValue("street", e)} />
+            <RowComponent title={"City"} value={city} onChange={(e) => this.updateInputValue("city", e)} />
+            <RowComponent title={"State"} value={state} onChange={(e) => this.updateInputValue("state", e)} />
+            <RowComponent title={"Zip Code"} value={zipCode} onChange={(e) => this.updateInputValue("zipCode", e)} />
             <Row className={styles.buttonBlock}>
               <PlainButton title="Save" onClick={() => this.updateContact()} />
               <PlainButton title="Cancel" onClick={() => this.props.history.push("/contacts")} />
@@ -116,7 +118,7 @@ const RowComponent = (props) => (
     </Col>
     <Col md={1}>:</Col>
     <Col md={5}>
-      <TextInput value={props.value} onChange={(e) => this.setState({ [props.value]: e.target.value })} />
+      <TextInput value={props.value} onChange={(e) => props.onChange(e.target.value)} />
     </Col>
   </Row>
 );
