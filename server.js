@@ -6,6 +6,8 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const { MONGOURI } = require("./config/keys");
+// const db = config.get("MONGOURI");
+console.log(MONGOURI, "db", PORT);
 //config Express App
 // app.use(express.bodyParser());
 // app.use(
@@ -17,7 +19,7 @@ const { MONGOURI } = require("./config/keys");
 //config PORT
 
 //config MongoDB
-mongoose.connect(MONGOURI, {
+mongoose.connect(process.env.MONGOURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -41,8 +43,6 @@ const authRouter = require("./routes/auth");
 
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
-
-// // To differentiate backend posts route, I am adding server/
 app.use("/address", addressRouter);
 
 //Load the npm build package of the frontend CRA
