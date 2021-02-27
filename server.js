@@ -15,7 +15,8 @@ const { MONGOURI } = require("./config/keys");
 // );
 
 //config PORT
-
+app.use(express.json());
+app.use(cors());
 //config MongoDB
 mongoose.connect(MONGOURI, {
   useNewUrlParser: true,
@@ -32,8 +33,6 @@ mongoose.connection.on("error", (err) => {
   console.log("err connecting", err);
 });
 
-app.use(express.json());
-app.use(cors());
 //config routes
 const addressRouter = require("./routes/address");
 const userRouter = require("./routes/userRoutes");
@@ -51,8 +50,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
   // Provide a wildcard as a fallback for all routes
-  app.get('*', (request, response) => {
-    response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  app.get("*", (request, response) => {
+    response.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
 
