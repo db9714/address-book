@@ -51,8 +51,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
   // Provide a wildcard as a fallback for all routes
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  app.get('*', (request, response) => {
+    response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
 
