@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const UserModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../config/keys.js");
+const { JWT_SECRET, EMAIL } = require("../config/keys.js");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 
@@ -13,8 +13,8 @@ let fromMail = "no-reply@addressbook.com";
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "db671996@gmail.com",
-    pass: "Db@#9714",
+    user: "addressbookByD@gmail.com",
+    pass: "addressByD",
   },
 });
 
@@ -109,7 +109,7 @@ router.route("/reset-password").post((req, res) => {
           subject: "password reset",
           html: `
                     <p>You requested for password reset</p>
-                    <h5>click in this <a href="${"http://localhost:3000"}/reset/${token}">link</a> to reset password</h5>
+                    <h5>click in this <a href="${EMAIL}/reset/${token}">link</a> to reset password</h5>
                     `,
         });
         res.json("Password reset link is send on your mail.");
