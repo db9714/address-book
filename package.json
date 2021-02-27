@@ -10,7 +10,7 @@
     "install-client": "cd client && npm install",
     "client":"cd client && npm start",
     "start": "node server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "Deepak B",
   "license": "ISC",
