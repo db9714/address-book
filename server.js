@@ -48,11 +48,11 @@ app.use("/address", addressRouter);
 //Load the npm build package of the frontend CRA
 if (process.env.NODE_ENV === "production") {
   // set a static folder
-  app.use(express.static("frontend/build"));
+  app.use(express.static("client/build"));
 
   // Provide a wildcard as a fallback for all routes
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
