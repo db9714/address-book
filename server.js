@@ -3,24 +3,21 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
-
-//config Express App
 const app = express();
+const PORT = process.env.PORT || 5000;
+const { MONGOURI } = require("./config/keys");
+//config Express App
 // app.use(express.bodyParser());
 // app.use(
 //   express.urlencoded({
 //     extended: true,
 //   })
 // );
-app.use(express.json());
-app.use(cors());
 
 //config PORT
-const PORT = process.env.PORT || 5000;
 
 //config MongoDB
-const uri = "mongodb+srv://deepakb:deepak-123@cluster0.oafna.mongodb.net/address-book?retryWrites=true&w=majority";
-mongoose.connect(uri, {
+mongoose.connect(MONGOURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -28,6 +25,15 @@ mongoose.connect(uri, {
 const connection = mongoose.connection;
 connection.once("open", () => console.log("MongoDB connection has been established!"));
 
+mongoose.connection.on("connected", () => {
+  console.log("conneted to mongo yeahh");
+});
+mongoose.connection.on("error", (err) => {
+  console.log("err connecting", err);
+});
+
+app.use(express.json());
+app.use(cors());
 //config routes
 const addressRouter = require("./routes/address");
 const userRouter = require("./routes/userRoutes");
