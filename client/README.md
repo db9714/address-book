@@ -7,11 +7,11 @@ The Address Book application is deployed on heroku platform.
 
 ### Technologies used:-
 
-# React
-# Bootstarp 4
-# Node js 
-# Sendinblue for mailing purpose.
+      #### React
+      #### Bootstarp 4
+      #### Node js 
+      #### Sendinblue for mailing purpose.
 
 
 # If you have any queries conatact me on deepakbhangale1996@gmail.com
-# DOn't forgot to start the repo.
+## DOn't forgot to start the repo.
