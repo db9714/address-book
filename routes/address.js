@@ -21,20 +21,10 @@ router.route("/create").post((req, res) => {
   //Retrieve data for address
   const { full_name, email, zip_code, street, city, mobile_no, state, createdBy } = req.body;
 
-  User.find({ _id: createdBy })
+  User.findById({ _id: createdBy })
     .then((user) => {
       //Create a new Address and save it to DB
-      console.log(user);
-      const newAddress = new Address({
-        full_name,
-        email,
-        zip_code,
-        street,
-        city,
-        mobile_no,
-        state,
-        createdBy: user,
-      });
+      const newAddress = new Address({ full_name, email, zip_code, street, city, mobile_no, state, createdBy: user });
 
       // Save the new Address
       newAddress

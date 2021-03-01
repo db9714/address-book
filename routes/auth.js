@@ -4,19 +4,27 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET, EMAIL } = require("../config/keys.js");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
+let sib = require("sendinblue-v3-node-client")("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");
 
 const nodemailer = require("nodemailer");
 
 let fromMail = "no-reply@addressbook.com";
-
+let senderMail = { name: "Address Book", email: "no-reply@addressbook.com" };
+let replyTo = { email: "no-reply@addressbook.com", name: "Address Book" };
 // auth
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "addressbookByD@gmail.com",
-    pass: "addressByD",
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "addressbookByD@gmail.com",
+//     pass: "addressByD",
+//   },
+// });
+
+var SibApiV3Sdk = require("sib-api-v3-sdk");
+var defaultClient = SibApiV3Sdk.ApiClient.instance;
+var apiKey = defaultClient.authentications["api-key"];
+apiKey.apiKey = "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";
+var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 router.route("/signup").post((req, res) => {
   const { name, email, password } = req.body;
@@ -41,12 +49,25 @@ router.route("/signup").post((req, res) => {
         newUser
           .save()
           .then((user) => {
-            transporter.sendMail({
-              to: user.email,
-              from: fromMail,
-              subject: "signup success",
-              html: "<h1>welcome to Address book</h1>",
-            });
+            let firstname, lastname;
+            firstname = user.name.split(" ")[0];
+            lastname = user.name.split(" ")[1];
+            let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+            sendSmtpEmail.subject = "Welcome to Address Book";
+            sendSmtpEmail.templateId = 2;
+            sendSmtpEmail.sender = senderMail;
+            sendSmtpEmail.to = [{ email: user.email, name: user.name }];
+            sendSmtpEmail.replyTo = replyTo;
+            sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}` };
+            apiInstance.sendTransacEmail(sendSmtpEmail).then(
+              function (data) {
+                console.log("API called successfully. Returned data: " + JSON.stringify(data));
+              },
+              function (error) {
+                console.error(error);
+              }
+            );
+
             res.json({ message: "User created successfully" });
           })
           .catch((err) => {
@@ -103,15 +124,24 @@ router.route("/reset-password").post((req, res) => {
       user.resetToken = token;
       user.expireToken = Date.now() + 3600000;
       user.save().then((result) => {
-        transporter.sendMail({
-          to: user.email,
-          from: fromMail,
-          subject: "password reset",
-          html: `
-                    <p>You requested for password reset</p>
-                    <h5>click in this <a href="${EMAIL}/reset/${token}">link</a> to reset password</h5>
-                    `,
-        });
+        let firstname, lastname;
+        firstname = result.name.split(" ")[0];
+        lastname = result.name.split(" ")[1];
+        let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+        sendSmtpEmail.subject = "Forgot Password";
+        sendSmtpEmail.templateId = 6;
+        sendSmtpEmail.sender = senderMail;
+        sendSmtpEmail.to = [{ email: user.email, name: user.full_name }];
+        sendSmtpEmail.replyTo = replyTo;
+        sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}`, token: `${token}` };
+        apiInstance.sendTransacEmail(sendSmtpEmail).then(
+          function (data) {
+            console.log("API called successfully. Returned data: " + JSON.stringify(data));
+          },
+          function (error) {
+            console.error(error);
+          }
+        );
         res.json("Password reset link is send on your mail.");
       });
     });
@@ -131,14 +161,26 @@ router.route("/new-password").post((req, res) => {
         user.resetToken = undefined;
         user.expireToken = undefined;
         user.save().then((saveduser) => {
-          transporter.sendMail({
-            to: user.email,
-            from: fromMail,
-            subject: "Your Password is successfully changed",
-            html: `
-                      <p>Your Password is successfully changed.</p>
-                      `,
-          });
+          let firstname, lastname;
+          firstname = saveduser.name.split(" ")[0];
+          lastname = saveduser.name.split(" ")[1];
+
+          let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+          sendSmtpEmail.subject = "Your Password is successfully changed";
+          sendSmtpEmail.templateId = 8;
+          sendSmtpEmail.sender = sender;
+          sendSmtpEmail.to = [{ email: user.email, name: user.full_name }];
+          sendSmtpEmail.replyTo = replyTo;
+          sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}` };
+
+          apiInstance.sendTransacEmail(sendSmtpEmail).then(
+            function (data) {
+              console.log("API called successfully. Returned data: " + JSON.stringify(data));
+            },
+            function (error) {
+              console.error(error);
+            }
+          );
           res.json({ message: "password updated success" });
         });
       });
