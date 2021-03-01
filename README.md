@@ -10,7 +10,11 @@ The Address Book application is deployed on heroku platform.
        React
        Bootstarp 4
        Node js 
+       Express
+       Mongodb
+       mongoAtlas
        Sendinblue for mailing purpose.
+       
 
 
 # If you have any queries conatact me on deepakbhangale1996@gmail.com
