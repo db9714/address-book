@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
   module.exports = {
     JWT_SECRET: "WEFEWF",
-    MONGOURI: "mongodb+srv://deepakb:deepak-123@cluster0.oafna.mongodb.net/address-book?retryWrites=true&w=majority",
+    MONGOURI: "mongodb+srv://deepak:deepak-123@cluster0.oafna.mongodb.net/address-book?retryWrites=true&w=majority",
     // SENDGRID_API: process.env.SENDGRID_API,
     EMAIL: "http://localhost:3000",
   };
