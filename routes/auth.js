@@ -77,6 +77,7 @@ router.route("/signup").post((req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      throw error
     });
 });
 
@@ -107,6 +108,7 @@ router.route("/signin").post((req, res) => {
         })
         .catch((err) => {
           console.log(err);
+          throw error
         });
     });
 });
@@ -140,6 +142,7 @@ router.route("/reset-password").post((req, res) => {
           },
           function (error) {
             console.error(error);
+            throw error
           }
         );
         res.json("Password reset link is send on your mail.");
@@ -187,6 +190,7 @@ router.route("/new-password").post((req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      throw error
     });
 });
 
