@@ -11,8 +11,7 @@ const nodemailer = require("nodemailer");
 let fromMail = "no-reply@addressbook.com";
 let senderMail = { name: "Address Book", email: "no-reply@addressbook.com" };
 let replyTo = { email: "no-reply@addressbook.com", name: "Address Book" };
-// auth
-// const transporter = nodemailer.createTransport({
+// auth const transporter = nodemailer.createTransport({
 //   service: "gmail",
 //   auth: {
 //     user: "addressbookByD@gmail.com",
@@ -110,6 +109,10 @@ router.route("/signin").post((req, res) => {
           console.log(err);
           throw error
         });
+    })
+    .catch((err) => {
+      console.log(err);
+      throw error
     });
 });
 
@@ -147,6 +150,10 @@ router.route("/reset-password").post((req, res) => {
         );
         res.json("Password reset link is send on your mail.");
       });
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error
     });
   });
 });
@@ -194,7 +201,7 @@ router.route("/new-password").post((req, res) => {
     });
 });
 
-// router.route("/change-password").post((req, res) => {
+// change router.route("/change-password").post((req, res) => {
 //   const newPassword = req.body.password;
 //   const sentToken = req.body.token;
 //   console.log("a", req.body);

@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const { MONGOURI } = require("./config/keys");
-// const db = config.get("MONGOURI");
+// db  const db = config.get("MONGOURI");
 console.log(MONGOURI, "db", PORT);
 //config Express App
 // app.use(express.bodyParser());

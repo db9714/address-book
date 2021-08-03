@@ -6,7 +6,6 @@ router.route("/").get(requireLogin, (req, res) => {
   UserModel.find()
     // .select("-password")
     .then((users) => {
-      let count = 0;
       res.json({
         count: users.length,
         results: [users],
@@ -31,7 +30,7 @@ router.route("/:id").post((req, res) => {
       user.password = req.body.password;
       user
         .save()
-        .then((user) => res.json(user))
+        .then((user_) => res.json(user_))
         .catch((err) => res.status(400).json("Error : " + err));
     })
     .catch((err) => res.status(400).json("Error : " + err));
@@ -42,5 +41,6 @@ router.route("/:id").delete(requireLogin, (req, res) => {
     .then(() => res.json("User deleted "))
     .catch((err) => res.status(400).json("Error " + err));
 });
+
 
 module.exports = router;

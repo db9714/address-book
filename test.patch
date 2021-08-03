@@ -1,0 +1,85 @@
+diff --git a/routes/auth.js b/routes/auth.js
+index b802d75..e66d432 100644
+--- a/routes/auth.js
++++ b/routes/auth.js
+@@ -11,8 +11,7 @@ const nodemailer = require("nodemailer");
+ let fromMail = "no-reply@addressbook.com";
+ let senderMail = { name: "Address Book", email: "no-reply@addressbook.com" };
+ let replyTo = { email: "no-reply@addressbook.com", name: "Address Book" };
+-// auth
+-// const transporter = nodemailer.createTransport({
++// auth const transporter = nodemailer.createTransport({
+ //   service: "gmail",
+ //   auth: {
+ //     user: "addressbookByD@gmail.com",
+@@ -110,6 +109,10 @@ router.route("/signin").post((req, res) => {
+           console.log(err);
+           throw error
+         });
++    })
++    .catch((err) => {
++      console.log(err);
++      throw error
+     });
+ });
+ 
+@@ -147,6 +150,10 @@ router.route("/reset-password").post((req, res) => {
+         );
+         res.json("Password reset link is send on your mail.");
+       });
++    })
++    .catch((error) => {
++      console.log(error);
++      throw error
+     });
+   });
+ });
+@@ -194,7 +201,7 @@ router.route("/new-password").post((req, res) => {
+     });
+ });
+ 
+-// router.route("/change-password").post((req, res) => {
++// change router.route("/change-password").post((req, res) => {
+ //   const newPassword = req.body.password;
+ //   const sentToken = req.body.token;
+ //   console.log("a", req.body);
+diff --git a/routes/userRoutes.js b/routes/userRoutes.js
+index 807408c..209573f 100644
+--- a/routes/userRoutes.js
++++ b/routes/userRoutes.js
+@@ -6,7 +6,6 @@ router.route("/").get(requireLogin, (req, res) => {
+   UserModel.find()
+     // .select("-password")
+     .then((users) => {
+-      let count = 0;
+       res.json({
+         count: users.length,
+         results: [users],
+@@ -31,7 +30,7 @@ router.route("/:id").post((req, res) => {
+       user.password = req.body.password;
+       user
+         .save()
+-        .then((user) => res.json(user))
++        .then((user_) => res.json(user_))
+         .catch((err) => res.status(400).json("Error : " + err));
+     })
+     .catch((err) => res.status(400).json("Error : " + err));
+@@ -43,4 +42,5 @@ router.route("/:id").delete(requireLogin, (req, res) => {
+     .catch((err) => res.status(400).json("Error " + err));
+ });
+ 
++
+ module.exports = router;
+diff --git a/server.js b/server.js
+index 890efad..20a8639 100644
+--- a/server.js
++++ b/server.js
+@@ -6,7 +6,7 @@ require("dotenv").config();
+ const app = express();
+ const PORT = process.env.PORT || 5000;
+ const { MONGOURI } = require("./config/keys");
+-// const db = config.get("MONGOURI");
++// db  const db = config.get("MONGOURI");
+ console.log(MONGOURI, "db", PORT);
+ //config Express App
+ // app.use(express.bodyParser());
