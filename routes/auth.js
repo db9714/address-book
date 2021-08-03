@@ -54,7 +54,7 @@ router.route("/signup").post((req, res) => {
             let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
             sendSmtpEmail.subject = "Welcome to Address Book";
             sendSmtpEmail.templateId = 2;
-            sendSmtpEmail.sender = user.email;
+            sendSmtpEmail.sender = senderMail;
             sendSmtpEmail.to = [{ email: user.email, name: user.name }];
             sendSmtpEmail.replyTo = replyTo;
             sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}` };
@@ -64,10 +64,12 @@ router.route("/signup").post((req, res) => {
               },
               function (error) {
                 console.error(error);
+                throw error
               }
             )
             .catch((err1) => {
               console.log(err1);
+              throw err1
             });
 
             res.json({ message: "User created successfully" });
@@ -141,7 +143,7 @@ router.route("/reset-password").post((req, res) => {
         let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
         sendSmtpEmail.subject = "Forgot Password";
         sendSmtpEmail.templateId = 6;
-        sendSmtpEmail.sender = user.email;
+        sendSmtpEmail.sender = senderMail;
         sendSmtpEmail.to = [{ email: user.email, name: user.full_name }];
         sendSmtpEmail.replyTo = replyTo;
         sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}`, token: `${token}` };
@@ -189,7 +191,7 @@ router.route("/new-password").post((req, res) => {
           let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
           sendSmtpEmail.subject = "Your Password is successfully changed";
           sendSmtpEmail.templateId = 8;
-          sendSmtpEmail.sender = user.email;
+          sendSmtpEmail.sender = senderMail;
           sendSmtpEmail.to = [{ email: user.email, name: user.full_name }];
           sendSmtpEmail.replyTo = replyTo;
           sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}` };
