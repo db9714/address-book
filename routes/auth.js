@@ -48,29 +48,29 @@ router.route("/signup").post((req, res) => {
         newUser
           .save()
           .then((user) => {
-            let firstname, lastname;
-            firstname = user.name.split(" ")[0];
-            lastname = user.name.split(" ")[1];
-            let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-            sendSmtpEmail.subject = "Welcome to Address Book";
-            sendSmtpEmail.templateId = 2;
-            sendSmtpEmail.sender = senderMail;
-            sendSmtpEmail.to = [{ email: user.email, name: user.name }];
-            sendSmtpEmail.replyTo = replyTo;
-            sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}` };
-            apiInstance.sendTransacEmail(sendSmtpEmail).then(
-              function (data) {
-                console.log("API called successfully. Returned data: " + JSON.stringify(data));
-              },
-              function (error) {
-                console.error(error);
-                throw error
-              }
-            )
-            .catch((err1) => {
-              console.log(err1);
-              throw err1
-            });
+            // commended let firstname, lastname;
+            // firstname = user.name.split(" ")[0];
+            // lastname = user.name.split(" ")[1];
+            // let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+            // sendSmtpEmail.subject = "Welcome to Address Book";
+            // sendSmtpEmail.templateId = 2;
+            // sendSmtpEmail.sender = senderMail;
+            // sendSmtpEmail.to = [{ email: user.email, name: user.name }];
+            // sendSmtpEmail.replyTo = replyTo;
+            // sendSmtpEmail.params = { firstname: `${firstname}`, lastname: `${lastname}` };
+            // apiInstance.sendTransacEmail(sendSmtpEmail).then(
+            //   function (data) {
+            //     console.log("API called successfully. Returned data: " + JSON.stringify(data));
+            //   },
+            //   function (error) {
+            //     console.error(error);
+            //     throw error
+            //   }
+            // )
+            // .catch((err1) => {
+            //   console.log(err1);
+            //   throw err1
+            // });
 
             res.json({ message: "User created successfully" });
           })
