@@ -75,6 +75,9 @@ router.route("/signup").post((req, res) => {
           .catch((err) => {
             console.log(err);
           });
+      }).catch((err) => {
+        console.log(err);
+        throw err
       });
     })
     .catch((err) => {
