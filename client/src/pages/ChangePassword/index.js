@@ -31,7 +31,7 @@ class ChangePassword extends React.Component {
       password,
     };
     var headers = {
-      "Content-Type": "text/plain",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
     apiServices.post("auth/change-password/", data, headers, this.toggleLoader, (responseData, errorData) => {
